@@ -3,11 +3,12 @@ import { type ReactNode } from "react";
 type ButtonVariant = "primary" | "secondary" | "ghost";
 
 interface ButtonProps {
-  href: string;
+  href?: string;
   variant?: ButtonVariant;
   children: ReactNode;
   className?: string;
   external?: boolean;
+  disabled?: boolean;
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
@@ -19,20 +20,30 @@ const variantStyles: Record<ButtonVariant, string> = {
     "bg-transparent text-muted hover:text-foreground border border-transparent",
 };
 
+const disabledStyles =
+  "pointer-events-none cursor-not-allowed opacity-45 border-border bg-surface/20 text-muted";
+
 export function Button({
-  href,
+  href = "#",
   variant = "primary",
   children,
   className = "",
   external = false,
+  disabled = false,
 }: ButtonProps) {
+  const classes = `inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-medium transition-all duration-200 ${
+    disabled ? disabledStyles : variantStyles[variant]
+  } ${className}`;
+
+  if (disabled) {
+    return <span className={classes}>{children}</span>;
+  }
+
   return (
     <a
       href={href}
-      className={`inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-medium transition-all duration-200 ${variantStyles[variant]} ${className}`}
-      {...(external
-        ? { target: "_blank", rel: "noopener noreferrer" }
-        : {})}
+      className={classes}
+      {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
     >
       {children}
     </a>

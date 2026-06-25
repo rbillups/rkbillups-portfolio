@@ -13,9 +13,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Reginald Key'Shawn Billups — Software Engineer",
+  metadataBase: new URL("https://rkbillups.com"),
+  title: "Reginald Key'Shawn Billups | Software Engineer",
   description:
-    "Software Engineer focused on backend development, CI/CD automation, developer tooling, and intelligent applications.",
+    "Portfolio of Reginald Key'Shawn Billups — Software Engineer focused on Python automation, developer tools, and product engineering.",
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function RootLayout({

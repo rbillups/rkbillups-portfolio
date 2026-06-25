@@ -8,20 +8,35 @@ export function About() {
   return (
     <section id="about" className="scroll-mt-24 border-t border-border py-24">
       <div className="mx-auto max-w-6xl px-6">
-        <SectionHeading label="About" title="Engineer & Builder" />
+        <SectionHeading
+          label="About"
+          title="SOFTWARE ENGINEER · AUTOMATION · PRODUCT DEVELOPMENT"
+        />
 
-        <motion.p
+        <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mb-12 max-w-3xl text-base leading-relaxed text-muted"
+          className="mb-12 max-w-3xl"
         >
-          Reginald Key&apos;Shawn is an engineer who solves operational problems through
-          automation, reliable systems, and user-focused products. He builds
-          tools that reduce manual work, improve software quality, and help
-          teams move from idea to production with confidence.
-        </motion.p>
+          <p className="text-base leading-relaxed text-muted">
+            Reginald Key&apos;Shawn Billups is a Software Engineer focused on
+            building reliable automation, maintainable developer tools, and
+            user-centered software products.
+          </p>
+          <p className="mt-4 text-base leading-relaxed text-muted">
+            His work combines Python development, object-oriented design, test
+            automation, requirements-driven engineering workflows, and modern
+            product development. He enjoys solving operational problems by
+            reducing repetitive effort, improving software quality, and turning
+            complex workflows into dependable systems.
+          </p>
+          <p className="mt-4 font-mono text-[11px] leading-relaxed text-muted/85">
+            Currently focused on Python automation, developer tooling, CI/CD-adjacent
+            quality workflows, mobile products, and practical AI/ML foundations.
+          </p>
+        </motion.div>
 
         <div className="grid gap-6 sm:grid-cols-3">
           {skillGroups.map((group, i) => (

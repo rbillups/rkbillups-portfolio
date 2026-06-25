@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { FileText, GitBranch, Link, Mail } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { contactLinks } from "@/lib/data";
+import { contactLinks, portfolioUrl } from "@/lib/data";
 
 const iconMap = {
   mail: Mail,
@@ -45,7 +45,10 @@ export function Contact() {
                   key={link.label}
                   href={link.href}
                   variant={link.label === "Email" ? "primary" : "secondary"}
-                  external={link.href.startsWith("http")}
+                  external={
+                    ("external" in link && link.external) ||
+                    link.href.startsWith("http")
+                  }
                 >
                   <Icon size={16} />
                   {link.label}
@@ -56,10 +59,20 @@ export function Contact() {
         </motion.div>
 
         <footer className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 text-center sm:flex-row sm:text-left">
-          <p className="font-mono text-xs text-muted">
-            RKB<span className="text-accent">.</span> — Built by Reginald
-            Key&apos;Shawn Billups
-          </p>
+          <div>
+            <p className="font-mono text-xs text-muted">
+              RKB<span className="text-accent">.</span> — Built by Reginald
+              Key&apos;Shawn Billups
+            </p>
+            <a
+              href={portfolioUrl}
+              className="mt-1 inline-block font-mono text-xs text-muted/70 transition-colors hover:text-accent"
+              target="_blank"
+              rel="noreferrer"
+            >
+              rkbillups.com
+            </a>
+          </div>
           <p className="font-mono text-xs text-muted/60">
             © {new Date().getFullYear()}
           </p>

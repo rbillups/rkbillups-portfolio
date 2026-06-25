@@ -98,7 +98,7 @@ export function Hero() {
               className="mt-11 flex flex-wrap gap-4"
             >
               <Button href="#projects">View Projects</Button>
-              <Button href={profileLinks.resume} variant="secondary">
+              <Button href={profileLinks.resume} variant="secondary" external>
                 Download Resume
               </Button>
             </motion.div>

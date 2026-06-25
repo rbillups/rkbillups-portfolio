@@ -8,12 +8,23 @@ export function Projects() {
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeading
           label="Selected Work"
-          title="Featured Projects"
-          description="Systems and tools built to automate workflows, ship reliable software, and solve real operational problems."
+          title="Selected Engineering Work"
+          description="A mix of sanitized enterprise case studies and public software projects spanning automation, mobile development, machine learning, and developer tooling."
         />
         <div className="grid gap-6 sm:grid-cols-2">
           {projects.map((project, i) => (
-            <ProjectCard key={project.title} {...project} index={i} />
+            <div
+              key={project.title}
+              className={
+                "featured" in project &&
+                project.featured &&
+                !("featuredCompact" in project && project.featuredCompact)
+                  ? "sm:col-span-2"
+                  : undefined
+              }
+            >
+              <ProjectCard {...project} index={i} />
+            </div>
           ))}
         </div>
       </div>

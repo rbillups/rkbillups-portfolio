@@ -34,7 +34,7 @@ export function Navigation() {
         </ul>
 
         <div className="hidden md:block">
-          <Button href={profileLinks.resume} variant="secondary" className="!px-4 !py-2 text-xs">
+          <Button href={profileLinks.resume} variant="secondary" className="!px-4 !py-2 text-xs" external>
             Resume
           </Button>
         </div>
@@ -71,7 +71,7 @@ export function Navigation() {
                 </li>
               ))}
               <li className="pt-2">
-                <Button href={profileLinks.resume} variant="secondary" className="w-full">
+                <Button href={profileLinks.resume} variant="secondary" className="w-full" external>
                   Resume
                 </Button>
               </li>
