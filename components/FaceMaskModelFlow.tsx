@@ -33,17 +33,17 @@ export function FaceMaskModelFlow({ steps }: { steps: readonly string[] }) {
       role="img"
       aria-label="CNN model architecture flow"
     >
-      <div className="mx-auto max-w-sm space-y-0.5">
+      <ul className="mx-auto max-w-sm list-none space-y-0.5 p-0">
         {steps.map((step, i) => (
-          <div key={step}>
+          <li key={`${step}-${i}`}>
             <FlowNode
               label={step}
               accent={i === 0 || i === steps.length - 1}
             />
             {i < steps.length - 1 && <FlowArrow />}
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }

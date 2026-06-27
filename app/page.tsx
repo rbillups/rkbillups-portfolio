@@ -9,6 +9,7 @@ import { Experience } from "@/components/Experience";
 import { AchievementsEducation } from "@/components/AchievementsEducation";
 import { About } from "@/components/About";
 import { Contact } from "@/components/Contact";
+import { PortfolioAssistantWidget } from "@/components/portfolio-assistant/PortfolioAssistantWidget";
 
 export default function Home() {
   return (
@@ -26,6 +27,7 @@ export default function Home() {
         <About />
         <Contact />
       </main>
+      <PortfolioAssistantWidget />
     </>
   );
 }

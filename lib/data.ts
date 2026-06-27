@@ -1,9 +1,10 @@
 export const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Projects", href: "#projects" },
-  { label: "Experience", href: "#experience" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/#home" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Experience", href: "/#experience" },
+  { label: "About", href: "/#about" },
+  { label: "Ask About My Work", href: "/ask" },
+  { label: "Contact", href: "/#contact" },
 ] as const;
 
 export const portfolioUrl = "https://rkbillups.com";
