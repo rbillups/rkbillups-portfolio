@@ -10,10 +10,8 @@ function StatusNotice({
 }) {
   return (
     <p
-      className={`mt-2 rounded border px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] ${
-        tone === "warning"
-          ? "border-amber-500/30 bg-amber-500/10 text-amber-200/85"
-          : "border-border/70 bg-background/50 text-muted"
+      className={`mt-2 font-mono text-[9px] uppercase tracking-[0.12em] ${
+        tone === "warning" ? "text-amber-200/80" : "text-muted/80"
       }`}
     >
       {label}
@@ -23,16 +21,64 @@ function StatusNotice({
 
 export function PortfolioAssistantMessages({
   messages,
+  variant = "page",
 }: {
   messages: PortfolioChatMessage[];
+  variant?: "page" | "widget";
 }) {
   if (!messages.length) return null;
 
+  const isWidget = variant === "widget";
+
   return (
-    <div className="space-y-4">
+    <div className={isWidget ? "space-y-5" : "space-y-4"}>
       {messages.map((message) => {
         const isUser = message.role === "user";
         const isLoading = message.status === "loading";
+
+        if (isWidget) {
+          return (
+            <div key={message.id} className="space-y-1.5">
+              {!isUser && (
+                <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted/70">
+                  {isLoading ? "Searching portfolio" : "Response"}
+                </p>
+              )}
+              {isUser && (
+                <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted/70">
+                  Your question
+                </p>
+              )}
+              <p
+                className={`text-sm leading-relaxed ${
+                  isUser ? "text-foreground/90" : "border-l border-accent/30 pl-3 text-muted"
+                } ${isLoading ? "animate-pulse" : ""}`}
+              >
+                {message.content}
+              </p>
+
+              {!isUser && message.policyBlocked && (
+                <StatusNotice label="Response limited for privacy" tone="warning" />
+              )}
+
+              {!isUser &&
+                message.insufficientContext &&
+                !message.policyBlocked && (
+                  <StatusNotice
+                    label="Limited portfolio context available"
+                    tone="muted"
+                  />
+                )}
+
+              {!isUser &&
+                message.status === "complete" &&
+                message.citations &&
+                message.citations.length > 0 && (
+                  <PortfolioAssistantCitations citations={message.citations} />
+                )}
+            </div>
+          );
+        }
 
         return (
           <div
@@ -62,10 +108,7 @@ export function PortfolioAssistantMessages({
               </p>
 
               {!isUser && message.policyBlocked && (
-                <StatusNotice
-                  label="Response limited for privacy"
-                  tone="warning"
-                />
+                <StatusNotice label="Response limited for privacy" tone="warning" />
               )}
 
               {!isUser &&

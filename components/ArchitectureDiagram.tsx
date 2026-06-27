@@ -1,4 +1,13 @@
-type DiagramType = "runit" | "bot" | "docs" | "cicd" | "demibot" | "facemask";
+import { KnowledgeForgeVisual } from "@/components/KnowledgeForgeVisual";
+
+type DiagramType =
+  | "runit"
+  | "bot"
+  | "docs"
+  | "cicd"
+  | "demibot"
+  | "facemask"
+  | "knowledgeforge";
 
 interface ArchitectureDiagramProps {
   type: DiagramType;
@@ -140,6 +149,8 @@ function ArchitectureDiagram({ type }: ArchitectureDiagramProps) {
           <Node label="Dense + Sigmoid" accent />
         </div>
       );
+    case "knowledgeforge":
+      return <KnowledgeForgeVisual />;
   }
 }
 

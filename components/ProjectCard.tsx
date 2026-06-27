@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, ExternalLink, GitBranch } from "lucide-react";
 import { ArchitectureDiagram } from "@/components/ArchitectureDiagram";
 import { DocumentWorkflowVisual } from "@/components/DocumentWorkflowVisual";
+import { KnowledgeForgeVisual } from "@/components/KnowledgeForgeVisual";
 import { RUNitScreenshots } from "@/components/RUNitScreenshots";
 import { Button } from "@/components/ui/Button";
 
@@ -15,12 +16,20 @@ interface ProjectCardProps {
   tech: readonly string[];
   githubUrl?: string;
   caseStudyUrl: string;
-  diagram: "runit" | "bot" | "docs" | "cicd" | "demibot" | "facemask";
+  diagram:
+    | "runit"
+    | "bot"
+    | "docs"
+    | "cicd"
+    | "demibot"
+    | "facemask"
+    | "knowledgeforge";
   index: number;
   featured?: boolean;
   featuredCompact?: boolean;
   isPublicRepo?: boolean;
   isSanitized?: boolean;
+  isActivePersonalProject?: boolean;
   caseStudyScroll?: boolean;
   eyebrowLabel?: string;
   subtitle?: string;
@@ -34,6 +43,12 @@ interface ProjectCardProps {
   inDevelopment?: boolean;
   secondaryCaseStudyUrl?: string;
   useWorkflowVisual?: boolean;
+  useKnowledgeForgeVisual?: boolean;
+  outcomeDetail?: string;
+  stackDetail?: string;
+  capabilities?: readonly string[];
+  primaryAction?: { label: string; href: string };
+  secondaryAction?: { label: string; href: string };
   previewImage?: {
     src: string;
     alt: string;
@@ -88,6 +103,13 @@ export function ProjectCard({
   inDevelopment = false,
   secondaryCaseStudyUrl,
   useWorkflowVisual = false,
+  useKnowledgeForgeVisual = false,
+  outcomeDetail,
+  stackDetail,
+  capabilities,
+  primaryAction,
+  secondaryAction,
+  isActivePersonalProject = false,
   previewImage,
 }: ProjectCardProps) {
   return (
@@ -135,6 +157,12 @@ export function ProjectCard({
             {inDevelopment && (
               <span className="rounded border border-border/80 bg-background/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-muted">
                 In Development
+              </span>
+            )}
+            {isActivePersonalProject && (
+              <span className="flex items-center gap-1.5 rounded border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-muted">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_6px_rgba(200,255,0,0.5)]" />
+                Active Personal Project
               </span>
             )}
             {!featured && (
@@ -191,6 +219,32 @@ export function ProjectCard({
             {description}
           </p>
 
+          {outcomeDetail && (
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-foreground/85">
+              {outcomeDetail}
+            </p>
+          )}
+
+          {stackDetail && (
+            <p className="mt-3 font-mono text-[10px] leading-relaxed text-muted/80">
+              {stackDetail}
+            </p>
+          )}
+
+          {capabilities && capabilities.length > 0 && (
+            <ul className="mt-4 space-y-1.5">
+              {capabilities.map((item) => (
+                <li
+                  key={item}
+                  className="flex gap-2 text-xs leading-relaxed text-muted"
+                >
+                  <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-accent/70" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          )}
+
           {cardDisclaimer && (
             <p className="mt-3 max-w-xl rounded-md border border-border/60 bg-background/40 p-3 font-mono text-[10px] leading-relaxed text-muted/80">
               {cardDisclaimer}
@@ -215,26 +269,55 @@ export function ProjectCard({
           )}
 
           <div className="mt-6 flex flex-wrap gap-3">
-            {!inDevelopment && (
-              <Button
-                href={caseStudyUrl}
-                variant={
-                  hideGithub || repoComingSoon
-                    ? "primary"
-                    : featured
-                      ? "secondary"
-                      : "ghost"
-                }
-                className="!px-3 !py-2 text-xs"
-                external={!caseStudyScroll}
-              >
-                {caseStudyScroll ? (
-                  <ArrowRight size={14} />
-                ) : (
-                  <ExternalLink size={14} />
+            {primaryAction ? (
+              <>
+                <Button
+                  href={primaryAction.href}
+                  variant="primary"
+                  className="!px-3 !py-2 text-xs"
+                  external={primaryAction.href.startsWith("http")}
+                >
+                  {primaryAction.href.startsWith("http") ? (
+                    <ExternalLink size={14} />
+                  ) : (
+                    <ArrowRight size={14} />
+                  )}
+                  {primaryAction.label}
+                </Button>
+                {secondaryAction && (
+                  <Button
+                    href={secondaryAction.href}
+                    variant="secondary"
+                    className="!px-3 !py-2 text-xs"
+                    external={secondaryAction.href.startsWith("http")}
+                  >
+                    <ArrowRight size={14} />
+                    {secondaryAction.label}
+                  </Button>
                 )}
-                {caseStudyScroll ? "View Case Study" : "Case Study"}
-              </Button>
+              </>
+            ) : (
+              !inDevelopment && (
+                <Button
+                  href={caseStudyUrl}
+                  variant={
+                    hideGithub || repoComingSoon
+                      ? "primary"
+                      : featured
+                        ? "secondary"
+                        : "ghost"
+                  }
+                  className="!px-3 !py-2 text-xs"
+                  external={!caseStudyScroll}
+                >
+                  {caseStudyScroll ? (
+                    <ArrowRight size={14} />
+                  ) : (
+                    <ExternalLink size={14} />
+                  )}
+                  {caseStudyScroll ? "View Case Study" : "Case Study"}
+                </Button>
+              )
             )}
             {repoComingSoon ? (
               <Button
@@ -278,6 +361,8 @@ export function ProjectCard({
           >
             {useWorkflowVisual ? (
               <DocumentWorkflowVisual variant="card" />
+            ) : useKnowledgeForgeVisual ? (
+              <KnowledgeForgeVisual />
             ) : previewImage ? (
               <ProjectPreviewImage
                 src={previewImage.src}

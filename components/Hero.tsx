@@ -103,6 +103,22 @@ export function Hero() {
               </Button>
             </motion.div>
 
+            <motion.p
+              initial={false}
+              animate={showContent ? contentMotion.visible : contentMotion.hidden}
+              transition={{ ...contentTransition, delay: reducedMotion ? 0 : 0.24 }}
+              className="mt-6 max-w-lg font-mono text-[11px] leading-relaxed text-muted/85"
+            >
+              Try the live portfolio assistant — a citation-grounded RAG demo of my
+              work.{" "}
+              <a
+                href="/ask"
+                className="text-accent transition-colors hover:text-foreground"
+              >
+                Ask About My Work →
+              </a>
+            </motion.p>
+
             {/* Connector line — desktop */}
             <div
               aria-hidden

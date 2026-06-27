@@ -11,6 +11,7 @@ type PortfolioAssistantChatProps = {
   variant: "page" | "widget";
   starterPrompts: readonly string[];
   welcomeCopy: string;
+  groundLine?: string;
   showFullAssistantLink?: boolean;
   className?: string;
 };
@@ -19,6 +20,7 @@ export function PortfolioAssistantChat({
   variant,
   starterPrompts,
   welcomeCopy,
+  groundLine,
   showFullAssistantLink = false,
   className = "",
 }: PortfolioAssistantChatProps) {
@@ -47,7 +49,18 @@ export function PortfolioAssistantChat({
   return (
     <div className={`flex min-h-0 flex-col ${className}`}>
       <div className="shrink-0">
-        <p className="text-sm leading-relaxed text-muted">{welcomeCopy}</p>
+        <p
+          className={`leading-relaxed text-muted ${
+            variant === "widget" ? "text-xs sm:text-sm" : "text-sm"
+          }`}
+        >
+          {welcomeCopy}
+        </p>
+        {groundLine && (
+          <p className="mt-1.5 font-mono text-[10px] leading-relaxed text-muted/75">
+            {groundLine}
+          </p>
+        )}
         {!isConfigured && (
           <p className="mt-3 rounded-md border border-amber-500/25 bg-amber-500/[0.06] px-3 py-2 text-xs text-muted">
             Assistant API URL is not configured. Set{" "}
@@ -66,17 +79,17 @@ export function PortfolioAssistantChat({
       >
         {messages.length === 0 ? (
           <div className="space-y-2">
-            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
-              Starter prompts
+            <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted/80">
+              Suggested prompts
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5">
               {starterPrompts.map((prompt) => (
                 <button
                   key={prompt}
                   type="button"
                   onClick={() => handlePromptClick(prompt)}
                   disabled={isLoading || !isConfigured}
-                  className="rounded-md border border-border bg-background/60 px-3 py-2 text-left text-xs leading-relaxed text-muted transition-colors hover:border-accent/35 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                  className="rounded-full border border-border/70 bg-background/50 px-2.5 py-1.5 text-left text-[11px] leading-snug text-muted transition-colors hover:border-accent/30 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {prompt}
                 </button>
@@ -84,7 +97,7 @@ export function PortfolioAssistantChat({
             </div>
           </div>
         ) : (
-          <PortfolioAssistantMessages messages={messages} />
+          <PortfolioAssistantMessages messages={messages} variant={variant} />
         )}
         <div ref={messagesEndRef} />
       </div>

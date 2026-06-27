@@ -21,16 +21,19 @@ export default function AskPage() {
           <div className="mt-8">
             <p className="mb-3 flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-accent">
               <span className="h-px w-8 bg-accent/50" />
-              Portfolio Assistant
+              Portfolio Intelligence
             </p>
             <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               Ask About My Work
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
-              Answers are based only on Reginald Key&apos;Shawn Billups&apos;
-              public portfolio materials — projects, experience, skills, and
-              career focus. This assistant does not access private systems,
-              internal documents, or admin tools.
+              Ask about my projects, engineering background, skills, or career
+              focus. Answers are grounded in my public portfolio materials and
+              cite supporting sources when available.
+            </p>
+            <p className="mt-2 max-w-2xl font-mono text-[11px] leading-relaxed text-muted/75">
+              This assistant does not access private systems, internal
+              documents, or admin tools.
             </p>
           </div>
 
@@ -38,7 +41,8 @@ export default function AskPage() {
             <PortfolioAssistantChat
               variant="page"
               starterPrompts={portfolioAssistantStarterPrompts}
-              welcomeCopy="Ask about my engineering background, portfolio projects, technical skills, or career direction. Responses cite supporting public portfolio sources when available."
+              welcomeCopy="Ask about my engineering background, portfolio projects, technical skills, or career direction."
+              groundLine="Answers are grounded in my public portfolio materials."
             />
           </section>
         </div>

@@ -84,3 +84,26 @@ body::before {
     opacity: 0.01;
   }
 }
+
+@keyframes assistant-live-pulse {
+  0%,
+  100% {
+    opacity: 0.65;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+.assistant-live-indicator {
+  animation: assistant-live-pulse 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .assistant-live-indicator {
+    animation: none;
+    opacity: 1;
+  }
+}

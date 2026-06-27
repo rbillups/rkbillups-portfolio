@@ -85,6 +85,36 @@ export const projects = [
   },
   {
     featured: true,
+    isActivePersonalProject: true,
+    eyebrowLabel: "AI Knowledge Assistant Platform",
+    category: "AI Knowledge Assistant Platform",
+    title: "KnowledgeForge",
+    subtitle: "Active personal project",
+    description:
+      "A citation-grounded AI assistant that turns approved documents into searchable knowledge bases with source-backed answers.",
+    outcomeDetail:
+      "Built a full-stack RAG workflow and deployed a public portfolio assistant with a restricted API surface, source citations, privacy controls, and evaluation coverage.",
+    stackDetail:
+      "Next.js, TypeScript, Python, FastAPI, Supabase Postgres + pgvector, OpenAI embeddings, Railway, Vercel",
+    capabilities: [
+      "Document ingestion and text extraction",
+      "Chunking and vector embeddings",
+      "Semantic search and grounded responses",
+      "Source citations",
+      "Privacy guardrails",
+      "Evaluation suite",
+      "Public portfolio assistant deployment",
+    ],
+    tech: ["RAG", "FastAPI", "Next.js", "pgvector", "OpenAI", "Supabase"],
+    hideGithub: true,
+    primaryAction: { label: "Try the live assistant", href: "/ask" },
+    secondaryAction: { label: "Ask from the homepage", href: "/#home" },
+    useKnowledgeForgeVisual: true,
+    caseStudyUrl: "/ask",
+    diagram: "knowledgeforge" as const,
+  },
+  {
+    featured: true,
     isPublicRepo: true,
     category: "Mobile Product Engineering · Location-Based Systems",
     title: "NextUp — Pickup Basketball Coordination App",
