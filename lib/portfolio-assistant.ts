@@ -1,8 +1,13 @@
 export const PORTFOLIO_ASSISTANT_UNAVAILABLE_MESSAGE =
   "The assistant is temporarily unavailable. Please try again shortly.";
 
+export const PORTFOLIO_ASSISTANT_ENDPOINT_UNAVAILABLE_MESSAGE =
+  "The assistant endpoint is unavailable. Please try again shortly.";
+
 export const PORTFOLIO_ASSISTANT_NOT_CONFIGURED_MESSAGE =
   "The portfolio assistant is not configured for this environment.";
+
+export const PORTFOLIO_CHAT_PATH = "/api/v1/public/portfolio/chat";
 
 export const portfolioAssistantStarterPrompts = [
   "What kind of software engineer is Key'Shawn?",
@@ -52,22 +57,56 @@ export function getPortfolioAssistantApiUrl(): string | null {
   return url || null;
 }
 
+export function getPortfolioAssistantChatUrl(): string | null {
+  const configured = getPortfolioAssistantApiUrl();
+  if (!configured) {
+    return null;
+  }
+
+  try {
+    const parsed = new URL(configured);
+    const normalizedPath = parsed.pathname.replace(/\/+$/, "");
+
+    if (
+      normalizedPath === PORTFOLIO_CHAT_PATH ||
+      normalizedPath.endsWith(PORTFOLIO_CHAT_PATH)
+    ) {
+      return `${parsed.origin}${PORTFOLIO_CHAT_PATH}`;
+    }
+
+    return new URL(PORTFOLIO_CHAT_PATH, `${parsed.origin}/`).toString();
+  } catch {
+    return null;
+  }
+}
+
 export async function askPortfolioAssistant(
   question: string,
 ): Promise<PortfolioChatResponse> {
-  const apiUrl = getPortfolioAssistantApiUrl();
+  const requestUrl = getPortfolioAssistantChatUrl();
 
-  if (!apiUrl) {
+  if (!requestUrl) {
     throw new Error(PORTFOLIO_ASSISTANT_NOT_CONFIGURED_MESSAGE);
   }
 
-  const response = await fetch(apiUrl, {
+  if (process.env.NODE_ENV === "development") {
+    console.debug("[Portfolio Assistant] POST", requestUrl);
+  }
+
+  const response = await fetch(requestUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ question } satisfies PortfolioChatRequest),
+    body: JSON.stringify({
+      question,
+      retrieval_limit: 5,
+    } satisfies PortfolioChatRequest),
   });
+
+  if (response.status === 404) {
+    throw new Error(PORTFOLIO_ASSISTANT_ENDPOINT_UNAVAILABLE_MESSAGE);
+  }
 
   if (!response.ok) {
     throw new Error(PORTFOLIO_ASSISTANT_UNAVAILABLE_MESSAGE);
